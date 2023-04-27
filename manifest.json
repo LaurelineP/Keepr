@@ -1,0 +1,26 @@
+{
+	"manifest_version": 3,
+	"name": "Keepr",
+	"description": "Keep tracks on what you read",
+	"version": "1.0",
+	"action": {
+		"default_popup": "./popup/popup.html",
+		"default_icon": "./icons/keepr.png"
+	},
+	"content_scripts": [
+		{
+			"js": [
+				"content/content.js"
+			],
+			"css": [
+				"content/content.css"
+			],
+			"matches": [
+				"https://developer.chrome.com/docs/extensions/mv3/getstarted/tut-reading-time",
+				"https://developer.chrome.com/docs/extensions/*",
+				"https://*/*",
+				"*://*/*"
+			]
+		}
+	]
+}

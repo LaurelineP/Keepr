@@ -1,5 +1,5 @@
 {
-  "name": "highlight-keep",
+  "name": "Keepr",
   "version": "1.0.0",
   "description": "",
   "main": "popup.js",
@@ -7,5 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "chrome-types": "^0.1.187"
+  }
 }
