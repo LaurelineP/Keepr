@@ -1,17 +1,27 @@
-const INIT_SCROLL_Y = window.scrollY;
 
-
+/**
+ * Creates, sets progress bar and returns its details
+ * @returns object.element, object.size
+ */
 function getProgressBarValue () {
-	let scrollHeight = document.body.scrollHeight;
-	const progressBarDiv = document.querySelector('.progress-bar');
+	const progressBarDiv 		= document.querySelector('.keepr_progress-bar');
 
-	const remainingPercent = ((((scrollHeight - window.scrollY) /  scrollHeight )) * 100 ) - 10;
-	const value = remainingPercent === 100 ? 0 : 100 - remainingPercent;
-	return { progressBarDiv, value }
+	const height_scrollable 	= document.body.scrollHeight;
+	const height_scrolled		= window.scrollY
+	const height_screen 		= window.innerHeight;
+	const height_scrollbar 		= height_screen / (height_scrollable / height_screen);
+	const height_scrollableRest = height_scrollable - height_scrolled
+
+	const percent_scrollbarSize 	= (height_scrollbar / height_screen) * 100;
+	const percent_scrollableRest 	= (height_scrollableRest / height_scrollable ) * 100 
+	const percent_scrollable 		= (percent_scrollableRest - percent_scrollbarSize );
+
+	const percent_progressBar = 100 - percent_scrollable;
+	return { element: progressBarDiv, size: percent_progressBar }
 }
 
 
-const INITIAL_VALUE = getProgressBarValue().value
+const INITIAL_VALUE = getProgressBarValue().size
 
 
 const Features = {
@@ -24,24 +34,24 @@ const Features = {
 
 			// Adds progress bar to pages
 			const div = document.createElement('div');
-			div.classList.add('progress-bar');
+			div.classList.add('keepr_progress-bar');
 			div.style.width = `${INITIAL_VALUE}%`
 			document.body.append(div);
 	
-			// OnScroll: calculates the width of the progress bar
+			// Calculates the width of the progress bar
 			function onScroll () {
-				const {progressBarDiv, value} = getProgressBarValue()
-				progressBarDiv.style.width = `${value}%`;
+				const {element: progressBarDiv, size} = getProgressBarValue()
+				progressBarDiv.style.width = `${size}%`;
 			}
-	
 			return document.addEventListener('scroll', onScroll)
 		},
+	
 		/**
 		 * Creates and injects reading time estimation for the current page
 		 * @param {*} tags 
 		 */
 		setDuration: (tags) => {
-			// Gets all articles' text content
+			// Gets all text content
 			const text = tags.reduce(( acc, tag ) => {
 				return acc.concat(` ${tag.innerText }`)
 			}, "" );
@@ -55,15 +65,14 @@ const Features = {
 			// Creates element text element
 			const readingTimeSpan = document.createElement('span');
 			readingTimeSpan.textContent = readingMsg;
-			readingTimeSpan.classList.add('reading-time');
+			readingTimeSpan.classList.add('keepr_reading-time');
 
 			// Injects text element into page
-			const progressBar = getProgressBarValue().progressBarDiv;
+			const progressBar = getProgressBarValue().element;
 
 			// Display reading time on page only if more than 1 min
 			!!readingTimeMinutes && progressBar.insertAdjacentElement('afterend', readingTimeSpan )
 		},
-		setReadingFeature: () => {},
 		readText: () => {
 
 		}
@@ -88,7 +97,7 @@ async function initTool () {
 
 	// Checks for readable content
 	const isReadingPageMaterial = !window.location.search;
-	const hasTextContent = !!textTags.length;
+	const hasTextContent = !!textContent.length;
 
 	// If content is readable displays progress bar and reading duration
 	if( isReadingPageMaterial && hasTextContent ){

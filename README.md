@@ -11,7 +11,7 @@ Helps one to realize how invested she/he is.
 
 	----
 
-- Preferences
+- Preferences (popup)
 	- [ ] progress bar color choice
 	- [ ] speech voice choice
 	- [ ] speech lang choice
@@ -20,7 +20,7 @@ Helps one to realize how invested she/he is.
 
 - Reading features / UI:
 	- [x] progress bar to display *(on all page having content text to read)* 
-		- [ ] to adjust / fix: behave differently on couple of page cases
+		- [x] to adjust / fix: behave differently on couple of page cases
 	- [x] reading time to display
 	- [ ] keep history of completed articles red
 	- [ ] ease article reading process with text to speech
@@ -55,13 +55,13 @@ Helps one to realize how invested she/he is.
 
 ## Project improvements
 Perspective of project improvements
-- [ ] Vite
 - [ ] Typescript
+- [ ] Vite
 - [ ] React
 
 --- 
 
 ## Plugin features
-- [x] should affect every pages: --> using content-scripts
+- [x] should affect every pages: *using `content-scripts`*
 - [ ] should have a context menu
 - [ ] should open an entire page ( like webapp ?)

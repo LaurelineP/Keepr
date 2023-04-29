@@ -1,11 +1,11 @@
 
 
 /* Injected HTML should be displayed above any content */
-.progress-bar, .reading-time {
+.keepr_progress-bar, .keepr_reading-time {
 	z-index: 100000;
 }
 
-.progress-bar {
+.keepr_progress-bar {
 	height: .3rem;
 	background-color: purple;
 	transition: all ease 100ms;
@@ -14,7 +14,7 @@
 	border-radius: 0 1rem 1rem 0;
 }
 
-.reading-time {
+.keepr_reading-time {
 	font-family: 'Avenir', sans-serif;
 	font-size: small;
 	color: #333;
