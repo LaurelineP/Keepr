@@ -45,6 +45,13 @@ const Features = {
 			}
 			return document.addEventListener('scroll', onScroll)
 		},
+
+		getText: (tags) => {
+			const text = tags.reduce(( acc, tag ) => {
+				return acc.concat(` ${tag.innerText }`)
+			}, "" );
+			return text;
+		},
 	
 		/**
 		 * Creates and injects reading time estimation for the current page
@@ -52,9 +59,7 @@ const Features = {
 		 */
 		setDuration: (tags) => {
 			// Gets all text content
-			const text = tags.reduce(( acc, tag ) => {
-				return acc.concat(` ${tag.innerText }`)
-			}, "" );
+			const text = Features.reading.getText(tags);
 
 			// Estimates reading time based on words count ( about 150 words at worth / min )
 			const words = text.split(/\W/).filter( t => !!t );
@@ -71,10 +76,13 @@ const Features = {
 			const progressBar = getProgressBarValue().element;
 
 			// Display reading time on page only if more than 1 min
-			!!readingTimeMinutes && progressBar.insertAdjacentElement('afterend', readingTimeSpan )
+			!!readingTimeMinutes && progressBar.insertAdjacentElement('afterend', readingTimeSpan );
 		},
-		readText: () => {
-
+		readText: (textContent) => {
+			const text = Features.reading.getText(textContent)
+			const speech = window.speechSynthesis;
+			const utterance = new SpeechSynthesisUtterance(text);
+			speech.speak(utterance)
 		}
 	}
 
@@ -104,6 +112,14 @@ async function initTool () {
 		try {
 			await Features.reading.setProgressBar();
 			await Features.reading.setDuration(textContent);
+			// await Features.reading.readText(textContent);
+			const btn = document.createElement('button')
+			btn.classList.add('Keepr_btn');
+			btn.onclick = () => {Features.reading.readText(textContent)}
+			btn.innerText = "click me"
+			document.body.insertAdjacentElement('afterbegin', btn);
+
+
 		} catch( e ){
 			throw new Error("[Keepr] Extension could not load correctly")
 		}
